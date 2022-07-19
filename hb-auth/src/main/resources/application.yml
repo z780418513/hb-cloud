@@ -1,0 +1,15 @@
+server:
+  # 服务端口
+  port: 9091
+
+
+spring:
+  application:
+    # 服务名
+    name: hb-auth
+  cloud:
+    nacos:
+      discovery:
+        # nacos注册地址
+        server-addr: 127.0.0.1:8848
+
