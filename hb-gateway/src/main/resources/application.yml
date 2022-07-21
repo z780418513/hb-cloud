@@ -1,8 +1,11 @@
 server:
+  # 端口
   port: 9090
 
-
 spring:
+  config:
+    # 导入bootstrap.yml（高版本springboot需要这样才能调用）
+    import: classpath:/bootstrap.yml
   application:
     # 应用程序名
     name: hb-gateway
@@ -10,5 +13,11 @@ spring:
     nacos:
       discovery:
         # nacos注册地址
-        server-addr: 127.0.0.1:8848
+        server-addr: ${hb.nacos.addr}
+        # 命名空间
+        namespace: ${hb.nacos.namespace}
+  profiles:
+    # 激活开发环境
+    active: dev
+
 

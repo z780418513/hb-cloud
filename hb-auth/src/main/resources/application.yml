@@ -7,9 +7,11 @@ spring:
   application:
     # 服务名
     name: hb-auth
-  cloud:
-    nacos:
-      discovery:
-        # nacos注册地址
-        server-addr: 127.0.0.1:8848
+  config:
+    # 导入bootstrap.yml（高版本springboot需要这样才能调用）
+    import: classpath:/bootstrap.yml
+  profiles:
+    # 默认激活开发环境
+    active: dev
+
 
