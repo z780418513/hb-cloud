@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        # nacos注册地址
+        server-addr: ${hb.nacos.addr}
+        # 命名空间
+        namespace: ${hb.nacos.namespace}
+
+
