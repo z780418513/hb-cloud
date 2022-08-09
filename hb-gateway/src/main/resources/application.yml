@@ -16,6 +16,11 @@ spring:
         server-addr: ${hb.nacos.addr}
         # 命名空间
         namespace: ${hb.nacos.namespace}
+    gateway:
+      discovery:
+        locator:
+          #是否启动自动识别nacos服务
+          enabled: true
   profiles:
     # 激活开发环境
     active: dev

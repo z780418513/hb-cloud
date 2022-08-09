@@ -1,0 +1,17 @@
+server:
+  # 服务端口
+  port: 9092
+
+
+spring:
+  application:
+    # 服务名
+    name: hb-yimi
+  config:
+    # 导入bootstrap.yml（高版本springboot需要这样才能调用）
+    import: classpath:/bootstrap.yml
+  profiles:
+    # 默认激活开发环境
+    active: dev
+
+

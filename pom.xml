@@ -12,6 +12,7 @@
     <modules>
         <module>hb-gateway</module>
         <module>hb-auth</module>
+        <module>biz/yimi</module>
     </modules>
     <!--打包方式pom：聚合工程-->
     <packaging>pom</packaging>
