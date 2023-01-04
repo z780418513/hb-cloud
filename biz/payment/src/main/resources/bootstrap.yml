@@ -1,0 +1,22 @@
+server:
+  # 端口
+  port: 9101
+
+spring:
+  application:
+    # 应用程序名
+    name: payment
+  cloud:
+    nacos:
+      discovery:
+        # nacos注册地址
+        server-addr: ${hb.nacos.addr}
+        # 命名空间
+        namespace: ${hb.nacos.namespace}
+      config:
+        server-addr: ${hb.nacos.addr}
+        namespace: ${hb.nacos.namespace}
+        file-extension: yaml
+  profiles:
+    # 激活开发环境
+    active: dev
