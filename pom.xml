@@ -14,6 +14,7 @@
         <module>api</module>
         <module>hb-core</module>
         <module>biz/payment</module>
+        <module>biz/user</module>
     </modules>
     <!--打包方式pom：聚合工程-->
     <packaging>pom</packaging>

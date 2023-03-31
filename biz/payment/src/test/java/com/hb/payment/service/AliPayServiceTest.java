@@ -3,6 +3,7 @@ package com.hb.payment.service;
 import com.hb.payment.PaymentApp;
 import com.hb.payment.bo.AliPayOrder;
 
+import com.hb.payment.bo.AliPayTradeQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,12 +24,20 @@ public class AliPayServiceTest {
     private AliPayService aliPayService;
 
     @Test
-    public void pay() {
+    public void getQrCodeTest() {
         AliPayOrder aliPayOrder = new AliPayOrder();
         aliPayOrder.setSubject("测试商品");
-        aliPayOrder.setOutTradeNo(new BigDecimal("0.01").toString());
+        aliPayOrder.setTotalAmount(new BigDecimal("0.01"));
         aliPayOrder.setNotifyUrl("");
-        aliPayOrder.setOutTradeNo("1289434897584");
+        aliPayOrder.setOutTradeNo("1289434897584114");
+        aliPayOrder.setNotifyUrl("http://www.baidu.com");
         String result = aliPayService.getQrCode(aliPayOrder);
+    }
+
+    @Test
+    public void getQrCodeTest2() {
+        AliPayTradeQuery query = new AliPayTradeQuery();
+        query.setOutTradeNo("1289434897584114");
+        String result = aliPayService.tradeQuery(query);
     }
 }

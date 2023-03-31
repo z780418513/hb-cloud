@@ -1,0 +1,10 @@
+hb:
+  nacos:
+    addr: 127.0.0.1:8848
+    namespace: bca33732-01b2-465e-b860-cfa493677ff4
+
+  # 支付宝支付配置
+  alipay:
+    app-id: appId
+    ali-pay-publish-key: 支付宝公钥
+    private-key: 私钥

@@ -51,8 +51,8 @@ public class AliPayCustomClient {
     private String defaultSingeType = "RSA2";
 
     @Bean("alipayClient")
-    public AlipayClient alipayClient(){
-        AlipayClient alipayClient = new DefaultAlipayClient(serverUrl, appId, privateKey, defaultFormat, defaultCharset, aliPayPublishKey, defaultSingeType);
-        return alipayClient;
+    public AlipayClient alipayClient() {
+        return new DefaultAlipayClient(serverUrl, appId, privateKey, defaultFormat, defaultCharset,
+                aliPayPublishKey, defaultSingeType);
     }
 }
