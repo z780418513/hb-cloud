@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.payment.mapper.PaymentOrderMapper">
+  <resultMap id="BaseResultMap" type="com.hb.payment.model.PaymentOrder">
+    <!--@mbg.generated-->
+    <!--@Table payment_order-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="payment_type" jdbcType="TINYINT" property="paymentType" />
+    <result column="payment_price" jdbcType="DECIMAL" property="paymentPrice" />
+    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="channel_order_id" jdbcType="VARCHAR" property="channelOrderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, payment_type, payment_price, account_id, channel_order_id
+  </sql>
+</mapper>

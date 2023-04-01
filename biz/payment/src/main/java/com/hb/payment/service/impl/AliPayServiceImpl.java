@@ -12,6 +12,7 @@ import com.hb.payment.bo.AliPayOrder;
 import com.hb.payment.bo.AliPayTradeQuery;
 import com.hb.payment.bo.BaseOrder;
 import com.hb.payment.bo.BaseTradeQuery;
+import com.hb.payment.mapper.PaymentOrderMapper;
 import com.hb.payment.service.AliPayService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +31,8 @@ import java.util.Objects;
 public class AliPayServiceImpl implements AliPayService {
     @Resource
     private AlipayClient alipayClient;
+    @Resource
+    private PaymentOrderMapper paymentOrderMapper;
 
     @Override
     public String getQrCode(BaseOrder order) {

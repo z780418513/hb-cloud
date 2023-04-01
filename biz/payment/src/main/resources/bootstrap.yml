@@ -20,3 +20,12 @@ spring:
   profiles:
     # 激活开发环境
     active: dev
+
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 控制台输出
+    map-underscore-to-camel-case: true # 开启驼峰
