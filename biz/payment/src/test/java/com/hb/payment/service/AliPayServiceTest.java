@@ -29,7 +29,7 @@ public class AliPayServiceTest {
         aliPayOrder.setSubject("测试商品");
         aliPayOrder.setTotalAmount(new BigDecimal("0.01"));
         aliPayOrder.setNotifyUrl("");
-        aliPayOrder.setOutTradeNo("1289434897584114");
+        aliPayOrder.setOutTradeNo("12894348975841123");
         aliPayOrder.setNotifyUrl("http://www.baidu.com");
         String result = aliPayService.getQrCode(aliPayOrder);
     }

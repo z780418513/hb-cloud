@@ -1,4 +1,14 @@
+server:
+  # 端口
+  port: 9090
+
 spring:
+  config:
+    # 导入bootstrap.yml（高版本springboot需要这样才能调用）
+    import: classpath:/bootstrap.yml
+  application:
+    # 应用程序名
+    name: hb-gateway
   cloud:
     nacos:
       discovery:
@@ -6,5 +16,20 @@ spring:
         server-addr: ${hb.nacos.addr}
         # 命名空间
         namespace: ${hb.nacos.namespace}
-
+    gateway:
+      discovery:
+        locator:
+          #启动动态路由，也就是说网关现在会根据服务名去找到对应的服务
+          enabled: true
+      routes:
+        - id: payment
+          #目标微服务名！而且是以负载均衡方式去获取！
+          uri: lb://hb-payment
+          predicates:
+            - Path=/paymentService/**
+          filters:
+            - StripPrefix=1
+  profiles:
+    # 激活开发环境
+    active: dev
 

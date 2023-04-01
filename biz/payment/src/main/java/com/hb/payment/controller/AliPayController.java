@@ -4,7 +4,7 @@ import com.hb.core.Result;
 import com.hb.core.ValidGroup;
 import com.hb.payment.bo.AliPayOrder;
 
-import com.hb.payment.bo.BaseTradeQuery;
+import com.hb.payment.bo.AliPayTradeQuery;
 import com.hb.payment.service.AliPayService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class AliPayController {
     }
 
     @GetMapping("/tradeQuery")
-    public Result tradeQuery(BaseTradeQuery tradeQuery) {
+    public Result tradeQuery(AliPayTradeQuery tradeQuery) {
         return Result.success(aliPayService.tradeQuery(tradeQuery));
     }
 }
