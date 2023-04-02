@@ -45,7 +45,7 @@ public class PaymentOrder {
      * 用户id
      */
     @TableField(value = "account_id")
-    private Long accountId;
+    private String accountId;
 
     /**
      * 渠道订单id

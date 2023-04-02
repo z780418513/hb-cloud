@@ -1,8 +1,8 @@
 package com.hb.payment.bo;
 
-import com.hb.payment.bo.BaseOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -12,10 +12,11 @@ import java.math.BigDecimal;
  * @description
  * @date 2022/12/15
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AliPayOrder implements BaseOrder {
+public class AliPayOrderRequest extends AbstractOrderRequest {
     /**
      * 通知回调地址<p>
      * 支付宝服务器主动通知商户服务器里指定的页面http/https路径。

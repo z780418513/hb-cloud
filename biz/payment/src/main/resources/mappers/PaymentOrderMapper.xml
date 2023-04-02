@@ -7,7 +7,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="payment_type" jdbcType="TINYINT" property="paymentType" />
     <result column="payment_price" jdbcType="DECIMAL" property="paymentPrice" />
-    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
     <result column="channel_order_id" jdbcType="VARCHAR" property="channelOrderId" />
   </resultMap>
   <sql id="Base_Column_List">

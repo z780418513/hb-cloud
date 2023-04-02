@@ -8,12 +8,13 @@ import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.google.common.base.Preconditions;
-import com.hb.payment.bo.AliPayOrder;
+import com.hb.payment.bo.AbstractOrderRequest;
+import com.hb.payment.bo.AliPayOrderRequest;
 import com.hb.payment.bo.AliPayTradeQuery;
-import com.hb.payment.bo.BaseOrder;
 import com.hb.payment.bo.BaseTradeQuery;
+import com.hb.payment.enums.PaymentTypeEnum;
 import com.hb.payment.mapper.PaymentOrderMapper;
-import com.hb.payment.service.AliPayService;
+import com.hb.payment.model.PaymentOrder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
@@ -26,22 +27,37 @@ import java.util.Objects;
  * @description
  * @date 2022/12/11
  */
-@Service
+@Service("aliPayService")
 @Slf4j
-public class AliPayServiceImpl implements AliPayService {
+public class AliPayService extends AbstractPayService {
     @Resource
     private AlipayClient alipayClient;
     @Resource
     private PaymentOrderMapper paymentOrderMapper;
 
     @Override
-    public String getQrCode(BaseOrder order) {
+    public String getQrCode(AbstractOrderRequest order) {
         log.info("aliPayService get qrCode , order : {}", order);
+        Preconditions.checkArgument(Objects.nonNull(order), "order 不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(order.getAccountId()), "AccountId 不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(order.getChannelOrderId()), "ChannelOrderId 不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(order.getUuid()), "uuid 不能为空");
+        AliPayOrderRequest aliPayOrderRequest = (AliPayOrderRequest) order;
         String qrCodeUrl = "";
+
+        // 是否第一次扫码，防止重复扫码
+        if (!isFirst(aliPayOrderRequest.getUuid())) {
+            log.debug("get qrCode fail, can not repeatability do it");
+            return qrCodeUrl;
+        }
+
         // 创建预订单
-        AlipayTradePrecreateResponse response = doPreCreateAilPayOrder(order);
-        if (response.isSuccess()) {
-            qrCodeUrl = response.getQrCode();
+        if (createPaymentOrder(aliPayOrderRequest) > 0) {
+            // 创建alipay预订单
+            AlipayTradePrecreateResponse response = doPreCreateAilPayOrder(aliPayOrderRequest);
+            if (response.isSuccess()) {
+                qrCodeUrl = response.getQrCode();
+            }
         }
         log.info("aliPayService get qrCode , qrCodeUrl : {}", qrCodeUrl);
         return qrCodeUrl;
@@ -75,22 +91,20 @@ public class AliPayServiceImpl implements AliPayService {
     /**
      * 创建支付宝预订单
      *
-     * @param order
+     * @param aliPayOrderRequest
      * @return
      */
-    public AlipayTradePrecreateResponse doPreCreateAilPayOrder(BaseOrder order) {
-        Preconditions.checkArgument(Objects.nonNull(order), "order 不能为空");
-        AliPayOrder aliPayOrder = (AliPayOrder) order;
-        Preconditions.checkArgument(StringUtils.isNotBlank(aliPayOrder.getNotifyUrl()), "notify url 不能为空");
-        Preconditions.checkArgument(Objects.nonNull(aliPayOrder.getTotalAmount()), "total_amount 不能为空");
-        Preconditions.checkArgument(StringUtils.isNotBlank(aliPayOrder.getSubject()), "subject 不能为空");
+    public AlipayTradePrecreateResponse doPreCreateAilPayOrder(AliPayOrderRequest aliPayOrderRequest) {
+        Preconditions.checkArgument(StringUtils.isNotBlank(aliPayOrderRequest.getNotifyUrl()), "notify url 不能为空");
+        Preconditions.checkArgument(Objects.nonNull(aliPayOrderRequest.getTotalAmount()), "total_amount 不能为空");
+        Preconditions.checkArgument(StringUtils.isNotBlank(aliPayOrderRequest.getSubject()), "subject 不能为空");
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
 
-        request.setNotifyUrl(aliPayOrder.getNotifyUrl());
+        request.setNotifyUrl(aliPayOrderRequest.getNotifyUrl());
         JSONObject bizContent = new JSONObject();
-        bizContent.put("out_trade_no", aliPayOrder.getOutTradeNo());
-        bizContent.put("total_amount", aliPayOrder.getTotalAmount().toString());
-        bizContent.put("subject", aliPayOrder.getSubject());
+        bizContent.put("out_trade_no", aliPayOrderRequest.getOutTradeNo());
+        bizContent.put("total_amount", aliPayOrderRequest.getTotalAmount().toString());
+        bizContent.put("subject", aliPayOrderRequest.getSubject());
 
         request.setBizContent(bizContent.toString());
         AlipayTradePrecreateResponse response = new AlipayTradePrecreateResponse();
@@ -100,5 +114,21 @@ public class AliPayServiceImpl implements AliPayService {
             log.error("aliPayService do pre create order error :", e);
         }
         return response;
+    }
+
+
+    private int createPaymentOrder(AliPayOrderRequest aliPayOrderRequest) {
+        try {
+            PaymentOrder paymentOrder = new PaymentOrder()
+                    .setPaymentType(PaymentTypeEnum.ALIPAY_TYPE.getCode())
+                    .setPaymentPrice(aliPayOrderRequest.getTotalAmount())
+                    .setChannelOrderId(aliPayOrderRequest.getChannelOrderId())
+                    .setAccountId(aliPayOrderRequest.getAccountId());
+            return paymentOrderMapper.insert(paymentOrder);
+        } catch (Exception e) {
+            log.error("create payment order fail ", e);
+            return 0;
+        }
+
     }
 }

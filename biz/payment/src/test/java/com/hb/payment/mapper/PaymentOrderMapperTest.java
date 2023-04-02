@@ -29,7 +29,7 @@ public class PaymentOrderMapperTest {
     public void insert(){
         PaymentOrder order = new PaymentOrder();
         order.setChannelOrderId("cdyy123456");
-        order.setAccountId(133943L);
+        order.setAccountId("133943");
         order.setPaymentPrice(new BigDecimal("1.00"));
         order.setPaymentType(PaymentTypeEnum.ALIPAY_TYPE.code);
         int insert = paymentOrderMapper.insert(order);
