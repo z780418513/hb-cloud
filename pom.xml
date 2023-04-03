@@ -28,6 +28,8 @@
         <spring-cloud-alibaba.version>2.2.9.RELEASE</spring-cloud-alibaba.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <redisson.version>3.19.0</redisson.version>
+        <org.projectlombok.version>1.18.16</org.projectlombok.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 
         <hb-version>1.0-SNAPSHOT</hb-version>
     </properties>
@@ -77,8 +79,32 @@
             </dependency>
 
             <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${org.projectlombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${org.mapstruct.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>com.hb</groupId>
                 <artifactId>hb-core</artifactId>
+                <version>${hb-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hb</groupId>
+                <artifactId>api</artifactId>
                 <version>${hb-version}</version>
             </dependency>
 
