@@ -1,0 +1,8 @@
+FROM openjdk:8
+
+ADD target/${SERVER_NAME}*.jar ./${SERVER_NAME}.jar
+
+ENV TZ="Asia/Shanghai" \
+    JAVA_OPT=""
+
+ENTRYPOINT java $JVM_CGROUP_OPT $JAVA_OPT -jar ${SERVER_NAME}.jar
