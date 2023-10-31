@@ -1,4 +1,5 @@
 hb:
   nacos:
     addr: 127.0.0.1:8848
-    namespace: bca33732-01b2-465e-b860-cfa493677ff4
+    namespace: 9fba7fbd-0040-47b4-8f61-4d4406be2d21
+
